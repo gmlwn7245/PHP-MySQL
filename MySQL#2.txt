@@ -1,0 +1,40 @@
+#PRIMARY KEY
+- DB가 중복되는 값이 들어오면 거절함 -> 중복 방지
+- 해당 KEY값을 중심으로 데이터를 금방 가져옴
+
+#DESC
+- 방식 : DESC 테이블명;
+- 해당 테이블의 구조를 보여줌
+
+#MySQL Client로서의 PHP
+- PHP <-> MySQL Server <-> MySQL Monitor 
+
+#PHP에서 MySQL 접속/데이터추가/에러감지
+1. 접속
+$conn = mysqli_connect(DB서버의주소, 사용자, 비밀번호, DB이름)
+ ex) mysqli_connect("localhost","root","111111","opentutorials");
+
+2. 데이터 추가/읽기
+- mysqli_query($conn, 쿼리문);
+	      (-> 위에서 mysql 접속한 것 저장한 변수)
+- 추가 성공 : true 리턴, 실패 : false 리턴
+ ex) mysqli_query($conn, "INSERT INTO topic (title, description, created) VALUE ('MySQL', 'MySQL is ..', NOW())"); -> 데이터 추가
+ ex) mysqli_query($conn, "SHOW * FROM topic"); -> 데이터 읽기
+
+3. 에러감지
+- mysqli_error($conn);
+	      (-> 위에서 msyql 접속한 것 저장한 변수)
+- error_log(mysql_error($conn)); => 사용자에게 보여주지 X 개발자의 error_log에 에러메세지 출력
+
+4. 읽은 후 결과 출력
+- mysqli_fetch_array 등의 여러 가지 방법이 있으니 검색
+ -> mysqli_fetch_array는 실행할 때마다 1개의 튜플의 정보씩 차례대로 가져옴 
+-> 여러 튜플 출력하려고 하면 mysqli_fetch_array 여러번 실행
+
+#NULL
+- NULL의 bool 값은 false임
+- 출력방법
+    while($row = mysqli_fetch_array($result)){
+        echo '<h2>'.$row['title'].'</h2>';
+        echo $row['description'];
+    }
