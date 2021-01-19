@@ -1,0 +1,41 @@
+#보안(in PHP)
+- 사용자로부터 정보를 입력받을 때, 보안 문제가 발생
+- input과 output에서 각각 보안 문제가 발생할 수 있음
+- 입력보안 filtering => mysqli_real_escape_string($conn, $_POST['description']);
+- 출력보안 escaping => htmlspecialchars();
+(-> 사용자가 <scrpit>~로이동하는코드</script> 를 입력해도, script의 괄호를 &lt;와 &gt;로 바꿔 태그가 아닌 문자 그대로 나오게 만듦 -> 이동하지 X -> XSS 방지)
+
+#SQL injection
+- SQL 문 앞에 "--"기호 넣으면 기호 다음에 오는 문장들은 모두 무시가 됨 => 일종의 주석
+- mysqli_real_escape_string을 쓰면 모든 문자를 쿼리로 인식하지 않고 입력된 내용 그대로 사용
+- mysqli_real_escape_string을 쓰지 않고 사용자가 입력한 내용 그대로 넣으면 마음대로 DB를 조작할 수 있음
+  (SQL문은 한 문장에 여러개의 쿼리문을 작성 가능 -> 세미콜론(;)으로 구별시켜주면 됨)
+
+#XSS(Cross-Site Scripting)
+-웹 애플리케이션에서 일어나는 취약점으로 관리자가 아닌 권한이 없는 사용자가 웹 사이트에 스크립트를 삽입하는 공격 기법
+
+#PHP의 die()와 exit()
+- PHP Script의 실행을 중단시키고, Shutdown 함수와 클래스의 Desctructor를 호출시키고 실행을 종료한다.
+- sql문을 $sql 변수에 담은 후, die($sql); 하면 die이전의 코드가 실행되고, sql문이 출력 후 실행 중단됨
+
+#settype
+- post형식으로 넘어온 number값(id등등)을 사용할 때 integer 타입으로 변환해줘야 함
+ex) settype($_POST['id'], 'integer); 후 사용
+
+#테이블 추가
+- ALTER TABLE 테이블명 ADD COLUMN 필드명 데이터타입
+- 추가되면 모든 행 기본 NULL값 들어감 -> UPDATE로 구현
+
+#테이블 합쳐서 출력
+- SELECT * FROM 테이블명1 LEFT JOIN 테이블명2 ON 테이블명1.필드1 = 테이블명2.필드2;
+- 필드1의 값에 각각 필드2의 값과 같은 행을 연결시켜 JOIN함
+
+#복습
+- DB연결 : mysqli_connect("연결서버", "사용자", "비밀번호", "연결할데이터베이스")		//연결된객체리턴
+- DB쿼리실행 : mysqli_query("연결객체", "쿼리문")					//쿼리실행후결과값리턴
+- 레코드가져오기 : mysqli_fetch_array("쿼리실행후결과값-테이블의튜플들")		//실행시튜플1개씩가져옴
+- 해당링크로 보내기(Redirection) : header('Location: index.php');			//index.php로 이동
+
+#+= -> .=
+- php에서는 문자열을 연결할 때 더하기(+)가 아니라 점(.)을 사용함
+- 따라서 += 는 .=로 사용할 수 있음

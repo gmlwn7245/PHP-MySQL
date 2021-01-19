@@ -1,5 +1,5 @@
 <?php
-    $conn = mysqli_connect("localhost","root","","opentutorials");
+    require('connect-DB.php');
     $sql = "SELECT * FROM topic";
     $result = mysqli_query($conn, $sql);
 
